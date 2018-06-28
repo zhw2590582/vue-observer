@@ -4,6 +4,9 @@ import Dep, { pushTarget, popTarget } from './dep';
 let uid = 0;
 
 export class Watcher {
+  // ctx: 上下文
+  // expOrFn: 触发上下文变化的函数，或者指定某个元素的下标
+  // cd：数据发生变化后的回调函数
   constructor(ctx, expOrFn, cb) {
     this.ctx = ctx;
     this.cb = cb;
@@ -18,7 +21,7 @@ export class Watcher {
       this.getter = parsePath(expOrFn);
     }
 
-    // 触发getter，收集依赖
+    // 实例化后马上触发getter，收集依赖
     this.value = this.get();
   }
 
@@ -29,6 +32,7 @@ export class Watcher {
     return value;
   }
 
+  // 在 watcher 中保存 dep ，也在dep中保存 watcher
   addDep(dep) {
     const id = dep.id;
     this.dep = dep;
@@ -37,6 +41,7 @@ export class Watcher {
     }
   }
 
+  // 触发回调函数
   update() {
     this.cb.call(this.ctx, this.ctx);
   }

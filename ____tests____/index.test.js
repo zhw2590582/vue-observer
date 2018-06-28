@@ -41,7 +41,7 @@ test('数组浅变化', done => {
   new Watcher(
     data,
     ctx => {
-		data.h.push(5);
+      data.h.push(5);
     },
     ctx => {
       expect(data.h.length).toBe(5);
